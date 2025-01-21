@@ -7,7 +7,9 @@
 """Main training script."""
 
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import dnnlib
 import dnnlib.tflib as tflib
 from dnnlib.tflib.autosummary import autosummary
@@ -242,7 +244,8 @@ def training_loop(
     # Finalize graph.
     with tf.device('/gpu:0'):
         try:
-            peak_gpu_mem_op = tf.contrib.memory_stats.MaxBytesInUse()
+            # peak_gpu_mem_op = tf.contrib.memory_stats.MaxBytesInUse()
+            peak_gpu_mem_op = tf.constant(0)
         except tf.errors.NotFoundError:
             peak_gpu_mem_op = tf.constant(0)
     tflib.init_uninitialized_vars()
